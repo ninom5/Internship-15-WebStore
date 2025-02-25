@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "./components/Header/Header";
-import AddNewProductPage from "./pages/AddNewProductPage/AddNewProductPage";
-import ProductPage from "./pages/ProductPage/ProductPage";
-import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import Header from "./components/Header/Header.jsx";
+import AddNewProductPage from "./pages/AddNewProductPage/AddNewProductPage.jsx";
+import ProductPage from "./pages/ProductPage/ProductPage.jsx";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
 
 function App() {
   return (
