@@ -1,6 +1,7 @@
 @import "./pages/NotFoundPage/notFoundPage.css";
 @import "./components/Header/Header.css";
 @import "./components/CreateProductForm/createProductForm.css";
+@import "./pages/ProductsPage/productsPage.css";
 
 * {
   margin: 0;

@@ -1,0 +1,31 @@
+.skeleton {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.all-products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 50px;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  width: 27%;
+  height: auto;
+  margin-bottom: 100px;
+}
+
+.card-image {
+  width: 90%;
+  height: auto;
+}
+.card-image img {
+  width: inherit;
+  height: inherit;
+  max-height: 350px;
+}
