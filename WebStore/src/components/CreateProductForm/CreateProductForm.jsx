@@ -128,6 +128,7 @@ const CreateProductForm = ({ setSavedProducts }) => {
           value={productFormData.title}
           required
         />
+
         <TextField
           id="outline-required"
           label="Price"
@@ -136,6 +137,7 @@ const CreateProductForm = ({ setSavedProducts }) => {
           value={productFormData.price}
           required
         />
+
         <TextField
           id="outlined-select-currency"
           select
@@ -151,6 +153,7 @@ const CreateProductForm = ({ setSavedProducts }) => {
             </MenuItem>
           ))}
         </TextField>
+
         <TextField
           id="outline-required"
           label="Description"
