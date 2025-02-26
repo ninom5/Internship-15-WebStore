@@ -78,13 +78,13 @@ const ProductsPage = ({ setSavedProducts }) => {
           </div>
 
           <div className="card-content">
-            <h3>{product.title}</h3>
-            <p>{product.description}</p>
-            <p>
-              <b>{product.price}</b>
+            <h3 id="card-title">{product.title}</h3>
+            <p id="card-description">{product.description}</p>
+            <p id="card-price">
+              {/* <p id="card-category">{product.category}</p> */}
+              <b>{product.price} €</b>
               {product.rating[0]}
             </p>
-            <p>{product.category}</p>
           </div>
         </div>
       ))}
