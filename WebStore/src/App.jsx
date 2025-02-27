@@ -19,18 +19,10 @@ function App() {
       <div id="app">
         <Header />
         <Routes>
-          <Route
-            path="/"
-            element={<ProductsPage setSavedProducts={setSavedProducts} />}
-          />
+          <Route path="/" element={<ProductsPage />} />
           <Route
             path="/addNewProduct"
-            element={
-              <AddNewProductPage
-                setSavedProducts={setSavedProducts}
-                savedProducts={savedProducts}
-              />
-            }
+            element={<AddNewProductPage setSavedProducts={setSavedProducts} />}
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
