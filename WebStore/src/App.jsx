@@ -25,7 +25,12 @@ function App() {
           />
           <Route
             path="/addNewProduct"
-            element={<AddNewProductPage setSavedProducts={setSavedProducts} />}
+            element={
+              <AddNewProductPage
+                setSavedProducts={setSavedProducts}
+                savedProducts={savedProducts}
+              />
+            }
           />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

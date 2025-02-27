@@ -2,6 +2,7 @@
 @import "./components/Header/Header.css";
 @import "./components/CreateProductForm/createProductForm.css";
 @import "./pages/ProductsPage/productsPage.css";
+@import "./components/LoadingSkeleton/loadingSkeleton.css";
 
 * {
   margin: 0;
