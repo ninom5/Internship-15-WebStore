@@ -1,5 +1,5 @@
 body {
-  background-color: white;
+  background-color: whitesmoke;
   color: black;
 }
 
@@ -35,8 +35,6 @@ body {
 }
 .card-image img {
   width: inherit;
-  /* min-height: 250px;
-  max-height: 250px; */
   height: 250px;
 }
 
@@ -54,15 +52,14 @@ body {
 }
 #card-description {
   font-style: italic;
-  /* max-height: 250px; */
-  /* padding-bottom: 30px; */
+  opacity: 0.7;
+  margin-bottom: 50px;
 }
 #card-price {
   margin-top: 20px;
   font-size: 20px;
-  opacity: 0.7;
   position: absolute;
   bottom: 0;
   left: 0;
-  padding: 10px;
+  padding: 30px;
 }

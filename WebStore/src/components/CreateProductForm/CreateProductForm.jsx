@@ -4,6 +4,7 @@ import { MenuItem } from "@mui/material";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Product from "../../model/ProductEntity.js";
+import InputAdornment from "@mui/material/InputAdornment";
 
 const CreateProductForm = ({ setSavedProducts }) => {
   const validateProductData = (localStorageProducts) => {
@@ -42,6 +43,17 @@ const CreateProductForm = ({ setSavedProducts }) => {
     return true;
   };
 
+  const convertToBase = (img) => {
+    const fileReader = new FileReader();
+    fileReader.onloadend = () => {
+      const baseString = fileReader.result;
+      setImage(baseString);
+    };
+    fileReader.readAsDataURL(img);
+  };
+
+  const [image, setImage] = useState("");
+  //ovo prominit
   const [category, setCategory] = useState("");
   const [productFormData, setProductFormData] = useState({
     title: "",
@@ -77,6 +89,12 @@ const CreateProductForm = ({ setSavedProducts }) => {
     setCategory(e.target.value);
   };
 
+  const handleImageChange = (e) => {
+    const imgFile = e.target.files[0];
+
+    if (imgFile) convertToBase(imgFile);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -89,7 +107,8 @@ const CreateProductForm = ({ setSavedProducts }) => {
       productFormData.title,
       productFormData.price,
       category,
-      productFormData.description
+      productFormData.description,
+      image
     );
 
     setSavedProducts([...localStorageProducts, newProduct]);
@@ -101,6 +120,7 @@ const CreateProductForm = ({ setSavedProducts }) => {
     });
 
     setCategory("");
+    setImage("");
 
     toast.success("Successfully added new product");
   };
@@ -135,6 +155,12 @@ const CreateProductForm = ({ setSavedProducts }) => {
           onChange={handleChange}
           name="price"
           value={productFormData.price}
+          sx={{ m: 1, width: "25ch" }}
+          slotProps={{
+            input: {
+              endAdornment: <InputAdornment position="end">€</InputAdornment>,
+            },
+          }}
           required
         />
 
@@ -162,7 +188,7 @@ const CreateProductForm = ({ setSavedProducts }) => {
           value={productFormData.description}
           required
         />
-        <TextField id="outline-required" label="Image" name="image" />
+        <TextField name="image" type="file" onChange={handleImageChange} />
 
         <button id="submit-button" type="submit">
           Submit

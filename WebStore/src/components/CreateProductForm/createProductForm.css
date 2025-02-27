@@ -8,6 +8,8 @@
   justify-self: center;
   border-radius: 7px;
   margin-top: 100px;
+  box-shadow: 4px 4px 4px #ccc;
+  border: 1px solid #ccc;
 }
 
 .form-background h2 {

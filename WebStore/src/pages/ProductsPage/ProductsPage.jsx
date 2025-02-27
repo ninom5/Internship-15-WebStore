@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import LoadingSkeleton from "../../components/LoadingSkeleton/LoadingSkeleton";
+import noImage from "../../assets/images/crossed-image.jpg";
 
 const ProductsPage = ({ setSavedProducts, savedProducts }) => {
   const [products, setProducts] = useState([]);
@@ -48,7 +49,7 @@ const ProductsPage = ({ setSavedProducts, savedProducts }) => {
           onClick={() => handleClick({ product })}
         >
           <div className="card-image">
-            <img src={product.image} alt="product image" />
+            <img src={product.image || noImage} alt="product image" />
           </div>
           <div className="card-content">
             <h3 id="card-title">{product.title}</h3>
