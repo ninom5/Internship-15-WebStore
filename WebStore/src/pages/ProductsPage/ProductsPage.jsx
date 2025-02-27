@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
 import LoadingSkeleton from "../../components/LoadingSkeleton/LoadingSkeleton";
-import noImage from "../../assets/images/crossed-image.jpg";
+import ProductCard from "../../components/ProductCard/ProductCard";
 
 const ProductsPage = ({ setSavedProducts, savedProducts }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const handleClick = ({ product }) => {
-    console.log(product);
-  };
 
   const localProducts = JSON.parse(localStorage.getItem("products")) || [];
 
@@ -37,30 +33,13 @@ const ProductsPage = ({ setSavedProducts, savedProducts }) => {
   }, []);
 
   if (loading) {
-    return <LoadingSkeleton products={products} />;
+    return <LoadingSkeleton numberOfProducts={products.length} />;
   }
 
   return (
     <section className="all-products">
       {products.map((product) => (
-        <div
-          className="product-card"
-          key={product.id}
-          onClick={() => handleClick({ product })}
-        >
-          <div className="card-image">
-            <img src={product.image || noImage} alt="product image" />
-          </div>
-          <div className="card-content">
-            <h3 id="card-title">{product.title}</h3>
-            <p id="card-description">{product.description}</p>
-            <p id="card-price">
-              {/* <p id="card-category">{product.category}</p> */}
-              <b>{product.price} €</b>
-              {/* {product.rating[0]} */}
-            </p>
-          </div>
-        </div>
+        <ProductCard key={product.id} product={product} />
       ))}
     </section>
   );

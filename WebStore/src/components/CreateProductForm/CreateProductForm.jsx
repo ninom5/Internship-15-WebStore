@@ -12,7 +12,8 @@ const CreateProductForm = ({ setSavedProducts }) => {
       !productFormData.title ||
       !productFormData.price ||
       !productFormData.description ||
-      !category
+      !category ||
+      !productFormData.rating
     ) {
       toast.error("Please fill in all fields");
       console.log(productFormData);
@@ -22,7 +23,8 @@ const CreateProductForm = ({ setSavedProducts }) => {
     if (
       productFormData.title?.trim() === "" ||
       productFormData.price?.trim() === "" ||
-      productFormData.description?.trim() === ""
+      productFormData.description?.trim() === "" ||
+      productFormData.rating?.trim() === ""
     ) {
       toast.error("Fields can't be empty");
       console.log(productFormData);
@@ -32,6 +34,12 @@ const CreateProductForm = ({ setSavedProducts }) => {
     const parsedPrice = parseFloat(productFormData.price);
     if (parsedPrice <= 0 || isNaN(parsedPrice)) {
       toast.error("Price must be a number greater than 0");
+      return false;
+    }
+
+    const parsedRating = parseFloat(productFormData.rating);
+    if (parsedRating <= 0 || parsedRating > 5 || isNaN(parsedRating)) {
+      toast.error("Rating must be a number greater than 0 and less than 5");
       return false;
     }
 
@@ -108,7 +116,8 @@ const CreateProductForm = ({ setSavedProducts }) => {
       productFormData.price,
       category,
       productFormData.description,
-      image
+      image,
+      productFormData.rating
     );
 
     setSavedProducts([...localStorageProducts, newProduct]);
@@ -117,6 +126,7 @@ const CreateProductForm = ({ setSavedProducts }) => {
       title: "",
       price: "",
       description: "",
+      rating: "",
     });
 
     setCategory("");
@@ -188,6 +198,24 @@ const CreateProductForm = ({ setSavedProducts }) => {
           value={productFormData.description}
           required
         />
+
+        <TextField
+          id="outline-required"
+          label="Rating"
+          onChange={handleChange}
+          name="rating"
+          value={productFormData.rating}
+          sx={{ m: 1, width: "25ch" }}
+          slotProps={{
+            input: {
+              endAdornment: (
+                <InputAdornment position="end">&#9733;</InputAdornment>
+              ),
+            },
+          }}
+          required
+        />
+
         <TextField name="image" type="file" onChange={handleImageChange} />
 
         <button id="submit-button" type="submit">

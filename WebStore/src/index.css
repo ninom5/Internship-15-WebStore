@@ -3,6 +3,7 @@
 @import "./components/CreateProductForm/createProductForm.css";
 @import "./pages/ProductsPage/productsPage.css";
 @import "./components/LoadingSkeleton/loadingSkeleton.css";
+@import "./components/ProductCard/productCard.css";
 
 * {
   margin: 0;

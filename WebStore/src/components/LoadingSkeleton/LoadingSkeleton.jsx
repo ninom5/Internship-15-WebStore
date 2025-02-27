@@ -2,10 +2,10 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 
-const LoadingSkeleton = ({ products }) => {
+const LoadingSkeleton = ({ numberOfProducts }) => {
   return (
     <div className="skeleton">
-      {Array.from(new Array(products.length)).map((item, index) => (
+      {Array.from(new Array(numberOfProducts)).map((item, index) => (
         <Box key={index} sx={{ width: 210, marginRight: 0.5, my: 5 }}>
           {item ? (
             <img
