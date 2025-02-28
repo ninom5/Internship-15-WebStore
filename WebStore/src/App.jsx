@@ -1,8 +1,9 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import Header from "./components/Header/Header.jsx";
 import AddNewProductPage from "./pages/AddNewProductPage/AddNewProductPage.jsx";
 import ProductsPage from "./pages/ProductsPage/ProductsPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
+import ProductPage from "./pages/ProductPage/ProductPage.jsx";
 import { useEffect, useState } from "react";
 
 function App() {
@@ -19,12 +20,24 @@ function App() {
       <div id="app">
         <Routes>
           <Route path="/" element={<Header />}>
-            <Route index element={<ProductsPage />} />
+            <Route
+              index
+              element={
+                <ProductsPage
+                  savedProducts={savedProducts}
+                  setSavedProducts={setSavedProducts}
+                />
+              }
+            />
             <Route
               path="/addNewProduct"
               element={
                 <AddNewProductPage setSavedProducts={setSavedProducts} />
               }
+            />
+            <Route
+              path={"/:productId"}
+              element={<ProductPage savedProducts={savedProducts} />}
             />
             <Route path="*" element={<NotFoundPage />} />
           </Route>

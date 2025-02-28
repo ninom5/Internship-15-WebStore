@@ -18,7 +18,7 @@ h1 {
 }
 
 Button {
-  width: 30%;
+  width: 30% !important;
 }
 
 .css-1tktgsa-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {

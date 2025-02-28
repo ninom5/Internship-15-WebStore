@@ -4,6 +4,7 @@
 @import "./pages/ProductsPage/productsPage.css";
 @import "./components/LoadingSkeleton/loadingSkeleton.css";
 @import "./components/ProductCard/productCard.css";
+@import "./pages/ProductPage/productPage.css";
 
 * {
   margin: 0;

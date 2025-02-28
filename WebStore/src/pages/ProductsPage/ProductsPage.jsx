@@ -5,16 +5,14 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { Menu, MenuItem, Button } from "@mui/material";
 
-const ProductsPage = () => {
-  const [products, setProducts] = useState([]);
+const ProductsPage = ({ savedProducts, setSavedProducts }) => {
+  // const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [element, setElement] = useState(null);
   const [open, setOpen] = useState(false);
   const [categorySelect, setCategorySelect] = useState("");
   const [searchValue, setSearchValue] = useState("");
-
-  const localProducts = JSON.parse(localStorage.getItem("products")) || [];
 
   useEffect(() => {
     const fetchedData = async () => {
@@ -23,13 +21,18 @@ const ProductsPage = () => {
         if (!response.ok) throw new Error("Error fetching data");
 
         const data = await response.json();
+        const localProducts =
+          JSON.parse(localStorage.getItem("products")) || [];
 
         if (!Array.isArray(data) || !Array.isArray(localProducts))
           throw new Error("Data or localProducts is not an array");
 
-        const allProducts = [...data, ...localProducts];
-
-        setProducts(allProducts);
+        const allProducts = [...localProducts, ...data].filter(
+          (product, index, self) =>
+            index === self.findIndex((p) => p.id === product.id)
+        );
+        // setProducts(allProducts);
+        setSavedProducts(allProducts);
         setFilteredProducts(allProducts);
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -44,7 +47,7 @@ const ProductsPage = () => {
 
   useEffect(() => {
     if (categorySelect === "top20") {
-      const topProducts = products
+      const topProducts = savedProducts
         .sort((a, b) => b.rating?.rate - a.rating?.rate)
         .slice(0, 20);
 
@@ -55,8 +58,10 @@ const ProductsPage = () => {
 
     let updatedProducts =
       categorySelect === "all"
-        ? products
-        : products.filter((product) => product.category === categorySelect);
+        ? savedProducts
+        : savedProducts.filter(
+            (product) => product.category === categorySelect
+          );
 
     // if (searchTerm) {
     //   updatedProducts = updatedProducts.filter((product) =>
@@ -65,7 +70,7 @@ const ProductsPage = () => {
     // }
 
     setFilteredProducts(updatedProducts);
-  }, [categorySelect /*searchFilter*/, , products]);
+  }, [categorySelect /*searchFilter*/, , savedProducts]);
 
   const handleMenuClick = (e) => {
     setElement(e.currentTarget);
@@ -87,7 +92,7 @@ const ProductsPage = () => {
   };
 
   if (loading) {
-    return <LoadingSkeleton numberOfProducts={products.length} />;
+    return <LoadingSkeleton numberOfProducts={savedProducts.length} />;
   }
 
   return (
@@ -97,7 +102,7 @@ const ProductsPage = () => {
         <Autocomplete
           id="free-solo-demo"
           freeSolo
-          options={products}
+          options={savedProducts}
           getOptionLabel={(option) => option?.title ?? ""}
           getOptionKey={(option) => option.id ?? option.title}
           renderInput={(params) => (
@@ -134,7 +139,7 @@ const ProductsPage = () => {
           ? filteredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))
-          : products.map((product) => (
+          : savedProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
       </section>
