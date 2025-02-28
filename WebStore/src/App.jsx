@@ -17,14 +17,17 @@ function App() {
   return (
     <BrowserRouter>
       <div id="app">
-        <Header />
         <Routes>
-          <Route path="/" element={<ProductsPage />} />
-          <Route
-            path="/addNewProduct"
-            element={<AddNewProductPage setSavedProducts={setSavedProducts} />}
-          />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="/" element={<Header />}>
+            <Route index element={<ProductsPage />} />
+            <Route
+              path="/addNewProduct"
+              element={
+                <AddNewProductPage setSavedProducts={setSavedProducts} />
+              }
+            />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
         </Routes>
       </div>
     </BrowserRouter>

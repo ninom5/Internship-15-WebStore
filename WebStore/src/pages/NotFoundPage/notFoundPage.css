@@ -32,6 +32,6 @@ button {
   background-color: #f9f9f9;
   cursor: pointer;
   margin-top: 50px;
-  width: 100%;
+  width: 100% !important;
   color: #646cff;
 }
