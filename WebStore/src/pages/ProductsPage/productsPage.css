@@ -1,6 +1,28 @@
-body {
-  background-color: whitesmoke;
-  color: black;
+h1 {
+  text-align: center;
+  font-size: 50px;
+  margin: 50px 0;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  gap: 50px;
+}
+
+.css-1tlcqt-MuiAutocomplete-root {
+  width: 50%;
+}
+
+Button {
+  width: 30%;
+}
+
+.css-1tktgsa-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+  width: 30%;
 }
 
 .all-products {
@@ -8,4 +30,5 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   gap: 50px;
+  margin-top: 150px;
 }
