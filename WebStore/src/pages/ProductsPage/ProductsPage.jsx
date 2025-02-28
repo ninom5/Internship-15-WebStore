@@ -28,13 +28,8 @@ const ProductsPage = () => {
 
         const allProducts = [...data, ...localProducts];
 
-        const sortedProducts = allProducts.sort(
-          (a, b) => b.rating?.rate - a.rating?.rate
-        );
-        const topProducts = sortedProducts.slice(0, 20);
-
-        setProducts(topProducts);
-        setFilteredProducts(topProducts);
+        setProducts(allProducts);
+        setFilteredProducts(allProducts);
       } catch (error) {
         console.error("Error fetching data: ", error);
         return;
@@ -47,12 +42,20 @@ const ProductsPage = () => {
   }, []);
 
   useEffect(() => {
-    let updatedProducts = products;
+    if (categorySelect === "top20") {
+      const topProducts = products
+        .sort((a, b) => b.rating?.rate - a.rating?.rate)
+        .slice(0, 20);
 
-    if (categorySelect !== "all")
-      updatedProducts = products.filter(
-        (product) => product.category === categorySelect
-      );
+      setFilteredProducts(topProducts);
+
+      return;
+    }
+
+    let updatedProducts =
+      categorySelect === "all"
+        ? products
+        : products.filter((product) => product.category === categorySelect);
 
     // if (searchTerm) {
     //   updatedProducts = updatedProducts.filter((product) =>
@@ -97,19 +100,23 @@ const ProductsPage = () => {
         <Button onClick={handleMenuClick}>Filter by category</Button>
 
         <Menu anchorEl={element} open={open} onClose={handleMenuClose}>
-          {["all", "electronics", "men's clothing", "women's clothing"].map(
-            (category) => (
-              <MenuItem
-                key={category}
-                onClick={() => handleCategorySelect(category)}
-              >
-                {category === "all" ? "Top 20 products" : category}
-              </MenuItem>
-            )
-          )}
+          {[
+            "all",
+            "top20",
+            "electronics",
+            "men's clothing",
+            "women's clothing",
+          ].map((category) => (
+            <MenuItem
+              key={category}
+              onClick={() => handleCategorySelect(category)}
+            >
+              {category === "top20" ? "Top 20 products" : category}
+            </MenuItem>
+          ))}
         </Menu>
         <h2>
-          {categorySelect === "all"
+          {categorySelect === "top20"
             ? "Top 20 products by rating"
             : categorySelect}
         </h2>
