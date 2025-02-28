@@ -12,6 +12,7 @@ const ProductsPage = () => {
   const [element, setElement] = useState(null);
   const [open, setOpen] = useState(false);
   const [categorySelect, setCategorySelect] = useState("");
+  const [searchValue, setSearchValue] = useState("");
 
   const localProducts = JSON.parse(localStorage.getItem("products")) || [];
 
@@ -80,6 +81,11 @@ const ProductsPage = () => {
     handleMenuClose();
   };
 
+  const handleSearch = (event, searchTerm) => {
+    setSearchValue(searchTerm);
+    console.log(searchValue);
+  };
+
   if (loading) {
     return <LoadingSkeleton numberOfProducts={products.length} />;
   }
@@ -91,12 +97,14 @@ const ProductsPage = () => {
         <Autocomplete
           id="free-solo-demo"
           freeSolo
-          options={products.map((option) => option.title)}
+          options={products}
+          getOptionLabel={(option) => option?.title ?? ""}
+          getOptionKey={(option) => option.id ?? option.title}
           renderInput={(params) => (
             <TextField {...params} label="Search by name" />
           )}
+          onInputChange={handleSearch}
         />
-
         <Button onClick={handleMenuClick}>Filter by category</Button>
 
         <Menu anchorEl={element} open={open} onClose={handleMenuClose}>
