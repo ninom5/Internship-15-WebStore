@@ -24,14 +24,19 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-button {
+#go-back-btn {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: none;
   padding: 0.6em 1.2em;
   font-size: 1em;
   background-color: #f9f9f9;
   cursor: pointer;
   margin-top: 50px;
-  width: 100% !important;
+  width: 100%;
   color: #646cff;
+  transition: 0.7s;
+}
+#go-back-btn:hover {
+  background-color: #646cff;
+  color: white;
 }

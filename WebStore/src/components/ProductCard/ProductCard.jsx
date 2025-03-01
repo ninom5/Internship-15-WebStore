@@ -4,7 +4,7 @@ import noImage from "../../assets/images/crossed-image.jpg";
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/${product.id}`);
+    navigate(`/productPage/${product.id}`);
   };
 
   return (

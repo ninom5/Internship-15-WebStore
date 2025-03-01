@@ -9,6 +9,9 @@
   border-radius: 7px;
   transition: 0.7s;
   cursor: pointer;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 .product-card:hover {
   transform: scale(1.05);

@@ -5,8 +5,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { Menu, MenuItem, Button } from "@mui/material";
 
-const ProductsPage = ({ savedProducts, setSavedProducts }) => {
-  // const [products, setProducts] = useState([]);
+const ProductsPage = ({ setFetchedProducts }) => {
+  const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [element, setElement] = useState(null);
@@ -31,8 +31,9 @@ const ProductsPage = ({ savedProducts, setSavedProducts }) => {
           (product, index, self) =>
             index === self.findIndex((p) => p.id === product.id)
         );
-        // setProducts(allProducts);
-        setSavedProducts(allProducts);
+
+        setProducts(allProducts);
+        setFetchedProducts(data);
         setFilteredProducts(allProducts);
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -47,7 +48,7 @@ const ProductsPage = ({ savedProducts, setSavedProducts }) => {
 
   useEffect(() => {
     if (categorySelect === "top20") {
-      const topProducts = savedProducts
+      const topProducts = products
         .sort((a, b) => b.rating?.rate - a.rating?.rate)
         .slice(0, 20);
 
@@ -58,19 +59,29 @@ const ProductsPage = ({ savedProducts, setSavedProducts }) => {
 
     let updatedProducts =
       categorySelect === "all"
-        ? savedProducts
-        : savedProducts.filter(
-            (product) => product.category === categorySelect
-          );
-
-    // if (searchTerm) {
-    //   updatedProducts = updatedProducts.filter((product) =>
-    //     product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    //   );
-    // }
+        ? products
+        : products.filter((product) => product.category === categorySelect);
 
     setFilteredProducts(updatedProducts);
-  }, [categorySelect /*searchFilter*/, , savedProducts]);
+  }, [categorySelect, products]);
+
+  useEffect(() => {
+    let updatedProducts = [...products];
+
+    if (categorySelect && categorySelect !== "all") {
+      updatedProducts = updatedProducts.filter(
+        (product) => product.category === categorySelect
+      );
+    }
+
+    if (searchValue) {
+      updatedProducts = updatedProducts.filter((product) =>
+        product.title.toLowerCase().includes(searchValue)
+      );
+    }
+
+    setFilteredProducts(updatedProducts);
+  }, [searchValue, categorySelect, products]);
 
   const handleMenuClick = (e) => {
     setElement(e.currentTarget);
@@ -86,13 +97,12 @@ const ProductsPage = ({ savedProducts, setSavedProducts }) => {
     handleMenuClose();
   };
 
-  const handleSearch = (event, searchTerm) => {
-    setSearchValue(searchTerm);
-    console.log(searchValue);
+  const handleSearch = (newInputValue) => {
+    setSearchValue(newInputValue);
   };
 
   if (loading) {
-    return <LoadingSkeleton numberOfProducts={savedProducts.length} />;
+    return <LoadingSkeleton numberOfProducts={products.length} />;
   }
 
   return (
@@ -102,15 +112,25 @@ const ProductsPage = ({ savedProducts, setSavedProducts }) => {
         <Autocomplete
           id="free-solo-demo"
           freeSolo
-          options={savedProducts}
-          getOptionLabel={(option) => option?.title ?? ""}
-          getOptionKey={(option) => option.id ?? option.title}
+          options={products.map((product) => product.title)}
           renderInput={(params) => (
             <TextField {...params} label="Search by name" />
           )}
-          onInputChange={handleSearch}
+          onInputChange={(event, newInputValue) => {
+            if (newInputValue !== null) {
+              setSearchValue(newInputValue.toLowerCase());
+            }
+          }}
+          onChange={(event, newValue) => {
+            if (newValue) {
+              setSearchValue(newValue.toLowerCase());
+            }
+          }}
         />
-        <Button onClick={handleMenuClick}>Filter by category</Button>
+
+        <Button onClick={handleMenuClick} id="filter-button">
+          Filter by category
+        </Button>
 
         <Menu anchorEl={element} open={open} onClose={handleMenuClose}>
           {[
@@ -134,14 +154,15 @@ const ProductsPage = ({ savedProducts, setSavedProducts }) => {
             : categorySelect}
         </h2>
       </div>
+
       <section className="all-products">
-        {filteredProducts.length > 0
-          ? filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))
-          : savedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        ) : (
+          <p>No products matching your filters and search</p>
+        )}
       </section>
     </>
   );

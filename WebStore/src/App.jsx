@@ -10,6 +10,7 @@ function App() {
   const [savedProducts, setSavedProducts] = useState(() => {
     return JSON.parse(localStorage.getItem("products")) || [];
   });
+  const [fetchedProducts, setFetchedProducts] = useState([]);
 
   useEffect(() => {
     localStorage.setItem("products", JSON.stringify(savedProducts));
@@ -22,12 +23,7 @@ function App() {
           <Route path="/" element={<Header />}>
             <Route
               index
-              element={
-                <ProductsPage
-                  savedProducts={savedProducts}
-                  setSavedProducts={setSavedProducts}
-                />
-              }
+              element={<ProductsPage setFetchedProducts={setFetchedProducts} />}
             />
             <Route
               path="/addNewProduct"
@@ -36,8 +32,12 @@ function App() {
               }
             />
             <Route
-              path={"/:productId"}
-              element={<ProductPage savedProducts={savedProducts} />}
+              path={"/productPage/:productId"}
+              element={
+                <ProductPage
+                  savedProducts={[...savedProducts, ...fetchedProducts]}
+                />
+              }
             />
             <Route path="*" element={<NotFoundPage />} />
           </Route>

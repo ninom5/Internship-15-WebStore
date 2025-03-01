@@ -6,7 +6,7 @@ const NotFoundPage = () => {
       <h1>404</h1>
       <p>Nothing to see here. Go back.</p>
       <Link to="/">
-        <button>Go back</button>
+        <button id="go-back-btn">Go back</button>
       </Link>
     </div>
   );

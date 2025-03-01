@@ -35,6 +35,10 @@
   color: rgba(0, 0, 0, 0.8);
   font-style: italic;
 }
+.product-content__info h4 {
+  width: 100%;
+  text-align: left;
+}
 
 .price-rating {
   display: flex;

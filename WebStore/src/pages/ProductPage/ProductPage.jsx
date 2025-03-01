@@ -2,7 +2,9 @@ import { useParams } from "react-router-dom";
 
 const ProductPage = ({ savedProducts }) => {
   const { productId } = useParams();
-  const product = savedProducts.find((p) => p.id === Number(productId));
+  const product = savedProducts.find((p) => String(p.id) === productId);
+
+  if (!product) return <h2>Error showing product data</h2>;
 
   return (
     <section className="product-content">
@@ -12,6 +14,7 @@ const ProductPage = ({ savedProducts }) => {
 
       <div className="product-content__info">
         <h2>{product.title}</h2>
+        <h4>{product.category}</h4>
         <h3>{product.description}</h3>
 
         <div className="price-rating">

@@ -22,8 +22,14 @@
 }
 
 #submit-button {
+  border-radius: 8px;
+  border: none;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  background-color: #f9f9f9;
+  cursor: pointer;
   width: 50%;
-  background-color: #ccc;
+  color: #646cff;
   margin: 50px 0 40px;
   transition: 0.7s;
 }

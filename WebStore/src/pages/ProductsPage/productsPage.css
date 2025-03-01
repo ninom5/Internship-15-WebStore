@@ -17,8 +17,8 @@ h1 {
   width: 50%;
 }
 
-Button {
-  width: 30% !important;
+#filter-button {
+  width: 30%;
 }
 
 .css-1tktgsa-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {

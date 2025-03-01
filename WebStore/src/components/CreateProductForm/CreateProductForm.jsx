@@ -16,7 +16,6 @@ const CreateProductForm = ({ setSavedProducts }) => {
       !productFormData.rating
     ) {
       toast.error("Please fill in all fields");
-      console.log(productFormData);
       return false;
     }
 
@@ -67,6 +66,7 @@ const CreateProductForm = ({ setSavedProducts }) => {
     title: "",
     price: "",
     description: "",
+    rating: "",
   });
 
   const categories = [
