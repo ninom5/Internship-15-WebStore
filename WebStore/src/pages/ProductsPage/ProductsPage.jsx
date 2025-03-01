@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import LoadingSkeleton from "../../components/LoadingSkeleton/LoadingSkeleton";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -7,11 +7,10 @@ import { Menu, MenuItem, Button } from "@mui/material";
 
 const ProductsPage = ({ setFetchedProducts }) => {
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [element, setElement] = useState(null);
   const [open, setOpen] = useState(false);
-  const [categorySelect, setCategorySelect] = useState("");
+  const [categorySelect, setCategorySelect] = useState("all");
   const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
@@ -34,10 +33,8 @@ const ProductsPage = ({ setFetchedProducts }) => {
 
         setProducts(allProducts);
         setFetchedProducts(data);
-        setFilteredProducts(allProducts);
       } catch (error) {
         console.error("Error fetching data: ", error);
-        return;
       } finally {
         setLoading(false);
       }
@@ -46,29 +43,16 @@ const ProductsPage = ({ setFetchedProducts }) => {
     fetchedData();
   }, []);
 
-  useEffect(() => {
-    if (categorySelect === "top20") {
-      const topProducts = products
-        .sort((a, b) => b.rating?.rate - a.rating?.rate)
-        .slice(0, 20);
-
-      setFilteredProducts(topProducts);
-
-      return;
-    }
-
-    let updatedProducts =
-      categorySelect === "all"
-        ? products
-        : products.filter((product) => product.category === categorySelect);
-
-    setFilteredProducts(updatedProducts);
-  }, [categorySelect, products]);
-
-  useEffect(() => {
+  const filteredProducts = useMemo(() => {
     let updatedProducts = [...products];
 
-    if (categorySelect && categorySelect !== "all") {
+    if (categorySelect === "top20") {
+      return [...updatedProducts]
+        .sort((a, b) => b.rating?.rate - a.rating?.rate)
+        .slice(0, 20);
+    }
+
+    if (categorySelect !== "all") {
       updatedProducts = updatedProducts.filter(
         (product) => product.category === categorySelect
       );
@@ -80,8 +64,8 @@ const ProductsPage = ({ setFetchedProducts }) => {
       );
     }
 
-    setFilteredProducts(updatedProducts);
-  }, [searchValue, categorySelect, products]);
+    return updatedProducts;
+  }, [categorySelect, searchValue, products]);
 
   const handleMenuClick = (e) => {
     setElement(e.currentTarget);
@@ -97,12 +81,8 @@ const ProductsPage = ({ setFetchedProducts }) => {
     handleMenuClose();
   };
 
-  const handleSearch = (newInputValue) => {
-    setSearchValue(newInputValue);
-  };
-
   if (loading) {
-    return <LoadingSkeleton numberOfProducts={products.length} />;
+    return <LoadingSkeleton numberOfProducts={8} />;
   }
 
   return (
@@ -116,20 +96,15 @@ const ProductsPage = ({ setFetchedProducts }) => {
           renderInput={(params) => (
             <TextField {...params} label="Search by name" />
           )}
-          onInputChange={(event, newInputValue) => {
-            if (newInputValue !== null) {
-              setSearchValue(newInputValue.toLowerCase());
-            }
-          }}
-          onChange={(event, newValue) => {
-            if (newValue) {
-              setSearchValue(newValue.toLowerCase());
-            }
-          }}
+          onInputChange={(event, newInputValue) =>
+            setSearchValue(newInputValue?.toLowerCase() || "")
+          }
         />
 
         <Button onClick={handleMenuClick} id="filter-button">
-          Filter by category
+          {categorySelect === "top20"
+            ? "Top 20 Products"
+            : "Filter by category"}
         </Button>
 
         <Menu anchorEl={element} open={open} onClose={handleMenuClose}>

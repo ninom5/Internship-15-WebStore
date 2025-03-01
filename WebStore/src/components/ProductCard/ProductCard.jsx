@@ -8,7 +8,7 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="product-card" onClick={() => handleClick({ product })}>
+    <div className="product-card" onClick={() => handleClick()}>
       <div className="card-image">
         <img src={product.image || noImage} alt="product image" />
       </div>

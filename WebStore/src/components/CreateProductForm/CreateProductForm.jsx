@@ -1,12 +1,14 @@
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import { MenuItem } from "@mui/material";
-import { useState } from "react";
+import { MenuItem, toolbarClasses } from "@mui/material";
+import { useState, useRef } from "react";
 import { toast } from "react-toastify";
 import Product from "../../model/ProductEntity.js";
 import InputAdornment from "@mui/material/InputAdornment";
 
 const CreateProductForm = ({ setSavedProducts }) => {
+  const fileInputRef = useRef(null);
+
   const validateProductData = (localStorageProducts) => {
     if (
       !productFormData.title ||
@@ -60,7 +62,6 @@ const CreateProductForm = ({ setSavedProducts }) => {
   };
 
   const [image, setImage] = useState("");
-  //ovo prominit
   const [category, setCategory] = useState("");
   const [productFormData, setProductFormData] = useState({
     title: "",
@@ -120,6 +121,11 @@ const CreateProductForm = ({ setSavedProducts }) => {
       productFormData.rating
     );
 
+    if (localStorageProducts.length >= 5) {
+      toast.error("Can't add more than 5 elements to prevent overflow");
+      return;
+    }
+
     setSavedProducts([...localStorageProducts, newProduct]);
 
     setProductFormData({
@@ -131,6 +137,8 @@ const CreateProductForm = ({ setSavedProducts }) => {
 
     setCategory("");
     setImage("");
+
+    if (fileInputRef.current) fileInputRef.current.value = "";
 
     toast.success("Successfully added new product");
   };

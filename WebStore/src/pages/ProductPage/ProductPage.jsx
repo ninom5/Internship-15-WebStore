@@ -1,11 +1,17 @@
 import { useParams } from "react-router-dom";
 import ProductDetails from "../../components/ProductDetails/ProductDetails";
 import MayAlsoLike from "../../components/MayAlsoLike/MayAlsoLike";
+import { useEffect } from "react";
 
 const ProductPage = ({ savedProducts }) => {
   const { productId } = useParams();
   const product = savedProducts.find((p) => String(p.id) === productId);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  });
+
+  console.log(productId, product, savedProducts);
   if (!product) return <h2>Error showing product data</h2>;
 
   return (
