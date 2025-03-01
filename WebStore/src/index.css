@@ -5,6 +5,8 @@
 @import "./components/LoadingSkeleton/loadingSkeleton.css";
 @import "./components/ProductCard/productCard.css";
 @import "./pages/ProductPage/productPage.css";
+@import "./components/ProductDetails/productDetails.css";
+@import "./components/MayAlsoLike/mayAlsoLike.css";
 
 * {
   margin: 0;

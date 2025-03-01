@@ -1,0 +1,19 @@
+.may-also-like-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#may-also-like-heading {
+  margin-top: 150px;
+  font-size: 50px;
+  font-style: italic;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.may-also-like-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 50px;
+}

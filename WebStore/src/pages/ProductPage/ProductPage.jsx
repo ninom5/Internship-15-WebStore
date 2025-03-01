@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import ProductDetails from "../../components/ProductDetails/ProductDetails";
+import MayAlsoLike from "../../components/MayAlsoLike/MayAlsoLike";
 
 const ProductPage = ({ savedProducts }) => {
   const { productId } = useParams();
@@ -7,25 +9,13 @@ const ProductPage = ({ savedProducts }) => {
   if (!product) return <h2>Error showing product data</h2>;
 
   return (
-    <section className="product-content">
-      <div className="product-content__image">
-        <img src={product.image} alt="product image" />
-      </div>
+    <>
+      <section className="product-content">
+        <ProductDetails product={product} />
+      </section>
 
-      <div className="product-content__info">
-        <h2>{product.title}</h2>
-        <h4>{product.category}</h4>
-        <h3>{product.description}</h3>
-
-        <div className="price-rating">
-          <p id="price">
-            <i>Price: </i>
-            {product.price}€
-          </p>
-          <p id="rating">{product.rating?.rate}&#9733;</p>
-        </div>
-      </div>
-    </section>
+      <MayAlsoLike savedProducts={savedProducts} />
+    </>
   );
 };
 
