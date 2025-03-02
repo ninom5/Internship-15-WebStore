@@ -4,6 +4,7 @@ import ProductCard from "../../components/ProductCard/ProductCard";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { Menu, MenuItem, Button } from "@mui/material";
+import fetchProducts from "../../utils/fetchProducts.js";
 
 const ProductsPage = ({ setFetchedProducts }) => {
   const [products, setProducts] = useState([]);
@@ -15,29 +16,12 @@ const ProductsPage = ({ setFetchedProducts }) => {
 
   useEffect(() => {
     const fetchedData = async () => {
-      try {
-        const response = await fetch("https://fakestoreapi.com/products");
-        if (!response.ok) throw new Error("Error fetching data");
+      setLoading(true);
+      const allProducts = await fetchProducts();
 
-        const data = await response.json();
-        const localProducts =
-          JSON.parse(localStorage.getItem("products")) || [];
-
-        if (!Array.isArray(data) || !Array.isArray(localProducts))
-          throw new Error("Data or localProducts is not an array");
-
-        const allProducts = [...localProducts, ...data].filter(
-          (product, index, self) =>
-            index === self.findIndex((p) => p.id === product.id)
-        );
-
-        setProducts(allProducts);
-        setFetchedProducts(data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      } finally {
-        setLoading(false);
-      }
+      setProducts(allProducts);
+      setFetchedProducts(allProducts);
+      setLoading(false);
     };
 
     fetchedData();

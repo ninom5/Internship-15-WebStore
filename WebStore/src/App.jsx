@@ -32,10 +32,12 @@ function App() {
               }
             />
             <Route
-              path={"/productPage/:productId"}
+              path="/productPage/:productId"
               element={
                 <ProductPage
-                  savedProducts={[...savedProducts, ...fetchedProducts]}
+                  savedProducts={savedProducts}
+                  fetchedProducts={fetchedProducts}
+                  setFetchedProducts={setFetchedProducts}
                 />
               }
             />
