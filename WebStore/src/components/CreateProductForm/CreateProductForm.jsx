@@ -5,52 +5,10 @@ import { useState, useRef } from "react";
 import { toast } from "react-toastify";
 import Product from "../../model/ProductEntity.js";
 import InputAdornment from "@mui/material/InputAdornment";
+import validateProductData from "../../utils/validateProductData.js";
 
 const CreateProductForm = ({ setSavedProducts }) => {
   const fileInputRef = useRef(null);
-
-  const validateProductData = (localStorageProducts) => {
-    if (
-      !productFormData.title ||
-      !productFormData.price ||
-      !productFormData.description ||
-      !category ||
-      !productFormData.rating
-    ) {
-      toast.error("Please fill in all fields");
-      return false;
-    }
-
-    if (
-      productFormData.title?.trim() === "" ||
-      productFormData.price?.trim() === "" ||
-      productFormData.description?.trim() === "" ||
-      productFormData.rating?.trim() === ""
-    ) {
-      toast.error("Fields can't be empty");
-      console.log(productFormData);
-      return false;
-    }
-
-    const parsedPrice = parseFloat(productFormData.price);
-    if (parsedPrice <= 0 || isNaN(parsedPrice)) {
-      toast.error("Price must be a number greater than 0");
-      return false;
-    }
-
-    const parsedRating = parseFloat(productFormData.rating);
-    if (parsedRating <= 0 || parsedRating > 5 || isNaN(parsedRating)) {
-      toast.error("Rating must be a number greater than 0 and less than 5");
-      return false;
-    }
-
-    if (localStorageProducts.length >= 25) {
-      toast.error("To prevent overflow you cant create more than 25 products");
-      return false;
-    }
-
-    return true;
-  };
 
   const convertToBase = (img) => {
     const fileReader = new FileReader();
@@ -110,7 +68,8 @@ const CreateProductForm = ({ setSavedProducts }) => {
     const localStorageProducts =
       JSON.parse(localStorage.getItem("products")) || [];
 
-    if (!validateProductData(localStorageProducts)) return;
+    if (!validateProductData(productFormData, category, localStorageProducts))
+      return;
 
     const newProduct = new Product(
       productFormData.title,
